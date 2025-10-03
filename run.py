@@ -84,11 +84,11 @@ def run_flask_app(logger):
     """Run the Flask web application"""
     try:
         logger.info("🚀 Starting Flask web application...")
-        logger.info("🌐 Access the application at: http://localhost:5000")
+        logger.info("🌐 Access the application at: http://localhost:9000")
         from api.app import create_app
         
         app = create_app()
-        app.run(host='0.0.0.0', port=5000, debug=True)
+        app.run(host='0.0.0.0', port=9000, debug=True)
         return True
     except Exception as e:
         logger.error(f"❌ Failed to run Flask app: {e}")

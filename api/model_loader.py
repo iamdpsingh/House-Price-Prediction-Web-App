@@ -161,12 +161,24 @@ class HousePricePredictor:
             return None, None, False
     
     def predict_price(self, location, total_sqft, bhk, bath, balcony=0):
-        """Make price prediction using the best available model"""
-        if not self.is_loaded:
-            logger.error("❌ Models not loaded")
-            return None
-        
+        """Make price prediction using the best available model with improved error handling"""
         try:
+            if not self.is_loaded:
+                logger.error("❌ Models not loaded")
+                return None
+            
+            # Validate location first
+            is_valid_location, location_error = self.validate_location(location)
+            if not is_valid_location:
+                logger.warning(f"Invalid location provided: {location}")
+                # Return a structured error instead of raising an exception
+                return {
+                    'success': False,
+                    'error': f"Invalid location: {location}",
+                    'message': location_error,
+                    'available_locations': self.location_encoder.classes_.tolist()[:10] if self.location_encoder else []
+                }
+            
             # Preprocess input
             features = self.preprocess_input(location, total_sqft, bhk, bath, balcony)
             
@@ -175,7 +187,11 @@ class HousePricePredictor:
             
             if model is None:
                 logger.error("❌ No models available for prediction")
-                return None
+                return {
+                    'success': False,
+                    'error': 'No models available',
+                    'message': 'No trained models found for prediction'
+                }
             
             # Apply scaling if needed
             if needs_scaling and self.feature_scaler:
@@ -204,6 +220,7 @@ class HousePricePredictor:
             
             # Create result dictionary
             result = {
+                'success': True,
                 'predicted_price': round(prediction, 2),
                 'price_per_sqft': round(price_per_sqft, 2),
                 'price_category': category,
@@ -215,8 +232,13 @@ class HousePricePredictor:
             return result
             
         except Exception as e:
-            logger.error(f"❌ Prediction error: {e}")
-            return None
+            logger.error(f"❌ Prediction error: {str(e)}")
+            # Return structured error instead of None
+            return {
+                'success': False,
+                'error': 'Prediction failed',
+                'message': str(e)
+            }
     
     def predict_with_all_models(self, location, total_sqft, bhk, bath, balcony=0):
         """Make predictions with all available models for comparison"""

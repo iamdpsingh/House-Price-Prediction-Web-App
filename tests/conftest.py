@@ -55,7 +55,7 @@ def sample_processed_dataset(sample_dataset):
     df = sample_dataset.copy()
     
     # Extract BHK from size
-    df['bhk'] = df['size'].str.extract('(\d+)').astype(int)
+    df['bhk'] = df['size'].str.extract(r'(\d+)').astype(int)    
     
     # Add derived features
     df['price_per_sqft'] = (df['price'] * 100000) / df['total_sqft']

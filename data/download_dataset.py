@@ -88,9 +88,10 @@ class KaggleDatasetDownloader:
             'Kothanur': {'base_price': 3200, 'variance': 0.31},
             'Bommanahalli': {'base_price': 3600, 'variance': 0.27},
             'CV Raman Nagar': {'base_price': 4100, 'variance': 0.23},
-            'Mysore Road': {'base_page': 3000, 'variance': 0.33},
-            'Old Airport Road': {'base_price': 4800, 'variance': 0.28}
+            'Mysore Road': {'base_price': 3000, 'variance': 0.33},  # Fixed: base_price instead of base_page
+            'Old Airport Road': {'base_price': 4800, 'variance': 0.28}  # Fixed: base_price instead of base_page
         }
+
         
         # Generate dataset
         n_samples = 13320  # Similar to original Bengaluru dataset size
@@ -206,6 +207,9 @@ class KaggleDatasetDownloader:
         # Create DataFrame
         df = pd.DataFrame(data)
         
+        # Ensure proper data types
+        df = self.ensure_numeric_types(df)
+        
         # Save to CSV
         df.to_csv(self.config.DATASET_PATH, index=False)
         
@@ -260,6 +264,21 @@ class KaggleDatasetDownloader:
         # If Kaggle download fails, create sample data
         logger.info("🔄 Kaggle download failed, creating sample dataset...")
         return self.create_sample_dataset()
+
+    def ensure_numeric_types(self, df):
+        """Ensure numeric columns have correct data types"""
+        numeric_columns = ['total_sqft', 'price', 'bath', 'balcony']
+        
+        for col in numeric_columns:
+            if col in df.columns:
+                df[col] = pd.to_numeric(df[col], errors='coerce')
+        
+        # Handle BHK if size column exists
+        if 'size' in df.columns:
+            df['bhk'] = df['size'].str.extract('(\d+)').astype(float)
+        
+        return df.dropna(subset=['price', 'total_sqft'])
+
 
 def main():
     """Main function"""

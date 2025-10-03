@@ -106,44 +106,38 @@ def create_app():
             balcony = int(data.get('balcony', 0))
             
             # Make prediction
-            prediction_result = predictor.predict_price(
-                location=location,
-                total_sqft=total_sqft,
-                bhk=bhk,
-                bath=bath,
-                balcony=balcony
-            )
-            
-            if prediction_result is None:
+            result = predictor.predict_price(
+            location=data['location'],
+            total_sqft=float(data['total_sqft']),
+            bhk=int(data['bhk']),
+            bath=int(data['bath']),
+            balcony=int(data.get('balcony', 0)))
+        
+            # Handle prediction result
+            if result is None:
                 return jsonify({
                     'success': False,
-                    'error': 'Prediction failed. Please check your input data.'
-                }), 500
+                    'error': 'Model not available. Please ensure models are trained.'
+                }), 503
             
-            # Format response
-            response = format_response(prediction_result, {
-                'location': location,
-                'total_sqft': total_sqft,
-                'bhk': bhk,
-                'bath': bath,
-                'balcony': balcony
+            # Check if result contains an error
+            if isinstance(result, dict) and result.get('success') == False:
+                return jsonify(result), 400  # Return 400 for validation errors
+            
+            # Success case - return prediction
+            return jsonify({
+                'success': True,
+                'prediction': result,
+                'input_data': data
             })
-            
-            return jsonify(response)
-            
-        except ValueError as ve:
-            return jsonify({
-                'success': False,
-                'error': f'Invalid input values: {str(ve)}'
-            }), 400
+        
         except Exception as e:
-            logger.error(f"Prediction error: {e}")
-            logger.error(traceback.format_exc())
+            logger.error(f"Prediction endpoint error: {str(e)}")
             return jsonify({
                 'success': False,
-                'error': 'An unexpected error occurred during prediction.'
+                'error': 'Internal server error during prediction'
             }), 500
-    
+        
     @app.route('/locations')
     def get_locations():
         """Get available locations"""
@@ -170,27 +164,37 @@ def create_app():
             }), 500
     
     @app.route('/model_info')
-    def get_model_info():
+    def model_info():
         """Get model information and performance metrics"""
         try:
-            if not predictor or not predictor.is_loaded:
+            if not predictor.is_loaded:
                 return jsonify({
                     'success': False,
-                    'error': 'Models not loaded'
+                    'error': 'Models not available'
                 }), 503
             
-            model_info = predictor.get_model_info()
-            return jsonify({
+            # Convert numpy arrays to lists for JSON serialization
+            model_info = {
                 'success': True,
-                'model_info': model_info
-            })
+                'model_info': {
+                    'best_model': predictor.best_model_name,
+                    'available_models': ['linear_regression', 'random_forest'],
+                    'locations_count': len(predictor.location_encoder.classes_) if predictor.location_encoder else 0,
+                    'available_locations': predictor.location_encoder.classes_.tolist() if predictor.location_encoder else [],
+                    'model_loaded': predictor.is_loaded,
+                    'features': predictor.feature_columns if hasattr(predictor, 'feature_columns') else []
+                }
+            }
+            
+            return jsonify(model_info)
             
         except Exception as e:
-            logger.error(f"Error getting model info: {e}")
+            logger.error(f"Error getting model info: {str(e)}")
             return jsonify({
                 'success': False,
-                'error': str(e)
+                'error': 'Unable to retrieve model information'
             }), 500
+
     
     @app.route('/plot')
     def generate_plot():
@@ -330,6 +334,6 @@ if __name__ == '__main__':
     logger.info("🚀 Starting Flask application...")
     app.run(
         host='0.0.0.0', 
-        port=5000, 
+        port=9000, 
         debug=True
     )

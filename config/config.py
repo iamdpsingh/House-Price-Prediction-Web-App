@@ -66,7 +66,7 @@ class Config:
     FLASK_CONFIG = {
         'DEBUG': True,
         'HOST': '0.0.0.0',
-        'PORT': 5000,
+        'PORT': 9000,
         'SECRET_KEY': 'house-price-prediction-secret-key'
     }
     
