@@ -1,0 +1,34 @@
+house_price_prediction_app/
+├── data/
+│   ├── raw/                   # Original dataset (CSV from Kaggle or scraped data)
+│   └── processed/             # Cleaned and feature-engineered dataset
+├── models/
+│   ├── trained_models/        # Saved .pkl or .joblib models
+│   ├── train_model.py         # Model training pipeline
+│   └── evaluation_plots/      # Plots of model evaluation
+├── api/
+│   ├── app.py                 # Flask app entry point
+│   ├── model_loader.py        # Load trained model
+│   └── utils.py               # Helper functions (encoding, preprocessing)
+├── frontend/
+│   ├── static/
+│   │   ├── css/
+│   │   │   └── style.css      # Styling for frontend
+│   │   └── js/
+│   │       └── script.js      # API call + form handling
+│   └── templates/
+│       ├── index.html         # Input form
+│       └── results.html       # Display results & graph link
+├── notebooks/
+│   ├── exploratory_data_analysis.ipynb   # EDA on dataset
+│   ├── feature_engineering.ipynb         # Data cleaning + encoding
+│   └── model_experiments.ipynb           # Training & comparing models
+├── tests/
+│   ├── test_api.py             # Test Flask API endpoints
+│   ├── test_models.py          # Unit tests for ML pipeline
+│   └── conftest.py             # Pytest config
+├── config/
+│   └── config.py               # File paths, parameters
+├── requirements.txt            # Python dependencies
+├── README.md                   # Setup + usage instructions
+└── run.py                      # Run the full web app

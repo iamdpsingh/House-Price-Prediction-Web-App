@@ -1,0 +1,30 @@
+# Core ML and Data Science
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+plotly
+
+# Web Framework
+Flask
+flask-cors
+
+# Data Processing
+joblib
+
+# Dataset Download
+kaggle
+
+# Jupyter Notebooks
+jupyter
+ipykernel
+nbformat
+
+# Testing
+pytest
+pytest-mock
+
+# Utilities
+tqdm
+python-dotenv

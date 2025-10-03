@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏠 House Price Predictor - Bengaluru Real Estate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="description" content="Predict house prices in Bengaluru using advanced machine learning. Get instant property valuations for 20+ locations with 90%+ accuracy.">
+    <meta name="keywords" content="house price prediction, Bengaluru real estate, property valuation, machine learning">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-home"></i>
+                    <span>HousePricer</span>
+                </div>
+                <nav class="nav">
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#how-it-works" class="nav-link">How It Works</a>
+                    <a href="/model_info" class="nav-link">Model Info</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Predict <span class="gradient-text">Bengaluru</span> House Prices
+                        <br>with AI Precision
+                    </h1>
+                    <p class="hero-subtitle">
+                        Get instant property valuations using advanced machine learning models trained on 13,000+ real estate records. Covering 20+ prime locations across India's Silicon Valley.
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <div class="stat-number">90%+</div>
+                            <div class="stat-label">Accuracy</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">20+</div>
+                            <div class="stat-label">Locations</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">13K+</div>
+                            <div class="stat-label">Properties</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="prediction-preview">
+                        <div class="preview-header">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Live Prediction</span>
+                        </div>
+                        <div class="preview-content">
+                            <div class="price-display">₹85.50 lakhs</div>
+                            <div class="location-display">Whitefield, 2 BHK</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Prediction Form -->
+    <section class="prediction-section" id="predictor">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get Your Property Valuation</h2>
+                <p class="section-subtitle">Enter your property details below for an instant AI-powered price prediction</p>
+            </div>
+
+            <div class="prediction-container">
+                <!-- Input Form -->
+                <div class="form-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-home"></i>
+                            Property Details
+                        </h3>
+                    </div>
+                    <form id="prediction-form" class="prediction-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="location" class="form-label">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Location
+                                </label>
+                                <select id="location" name="location" class="form-control" required>
+                                    <option value="">Choose location...</option>
+                                    {% for location in locations %}
+                                    <option value="{{ location }}">{{ location }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="form-help">Select from {{ locations|length }} available locations</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="total_sqft" class="form-label">
+                                    <i class="fas fa-ruler-combined"></i>
+                                    Total Area (sq ft)
+                                </label>
+                                <input type="number" id="total_sqft" name="total_sqft" 
+                                       class="form-control" placeholder="e.g., 1200" 
+                                       min="300" max="8000" step="1" required>
+                                <div class="form-help">Enter area between 300 - 8,000 sq ft</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="bhk" class="form-label">
+                                    <i class="fas fa-bed"></i>
+                                    BHK
+                                </label>
+                                <select id="bhk" name="bhk" class="form-control" required>
+                                    <option value="">Select BHK</option>
+                                    <option value="1">1 BHK</option>
+                                    <option value="2">2 BHK</option>
+                                    <option value="3">3 BHK</option>
+                                    <option value="4">4 BHK</option>
+                                    <option value="5">5 BHK</option>
+                                    <option value="6">6+ BHK</option>
+                                </select>
+                            </div>
+                            <div class="form-group half-width">
+                                <label for="bath" class="form-label">
+                                    <i class="fas fa-bath"></i>
+                                    Bathrooms
+                                </label>
+                                <select id="bath" name="bath" class="form-control" required>
+                                    <option value="">Select</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5+</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="balcony" class="form-label">
+                                    <i class="fas fa-tree"></i>
+                                    Balconies
+                                </label>
+                                <select id="balcony" name="balcony" class="form-control">
+                                    <option value="0">None</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3+</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="predict-btn" class="predict-btn">
+                            <span class="btn-content">
+                                <i class="fas fa-magic"></i>
+                                <span class="btn-text">Predict Price</span>
+                            </span>
+                            <div class="btn-loading">
+                                <div class="spinner"></div>
+                                <span>Analyzing...</span>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Results Display -->
+                <div class="results-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-chart-bar"></i>
+                            Prediction Results
+                        </h3>
+                    </div>
+                    <div id="results-container" class="results-content">
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <h4>Ready to Predict</h4>
+                            <p>Fill in the property details and click "Predict Price" to get your instant valuation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose Our Platform?</h2>
+                <p class="section-subtitle">Advanced AI meets real estate expertise</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">AI-Powered Accuracy</h3>
+                    <p class="feature-description">
+                        Dual ML models (Random Forest + Linear Regression) with 90%+ accuracy trained on real market data.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Instant Results</h3>
+                    <p class="feature-description">
+                        Get property valuations in seconds with comprehensive market analysis and insights.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Comprehensive Coverage</h3>
+                    <p class="feature-description">
+                        20+ prime Bengaluru locations from premium areas to emerging neighborhoods.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Market Insights</h3>
+                    <p class="feature-description">
+                        Detailed analytics including price trends, market position, and investment recommendations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works-section" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-subtitle">Simple, fast, and accurate property valuation in 3 steps</p>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Enter Details</h3>
+                        <p class="step-description">Input your property specifications including location, area, and configuration.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">AI Analysis</h3>
+                        <p class="step-description">Our ML models analyze 13,000+ comparable properties to determine fair market value.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Get Results</h3>
+                        <p class="step-description">Receive instant valuation with detailed market insights and recommendations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-home"></i>
+                        <span>HousePricer</span>
+                    </div>
+                    <p class="footer-description">
+                        AI-powered house price prediction for Bengaluru real estate market.
+                    </p>
+                    <div class="footer-stats">
+                        <div class="footer-stat">
+                            <span class="stat-number">90%+</span>
+                            <span class="stat-label">Accuracy</span>
+                        </div>
+                        <div class="footer-stat">
+                            <span class="stat-number">13K+</span>
+                            <span class="stat-label">Properties</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#predictor">Price Predictor</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="/model_info">Model Performance</a></li>
+                        <li><a href="/plot">Visualizations</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Locations Covered</h4>
+                    <ul class="footer-links">
+                        <li>Whitefield</li>
+                        <li>Electronic City</li>
+                        <li>Sarjapur Road</li>
+                        <li>Marathahalli</li>
+                        <li>And {{ locations|length - 4 }}+ more areas</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Technology</h4>
+                    <div class="tech-badges">
+                        <span class="tech-badge">Machine Learning</span>
+                        <span class="tech-badge">Random Forest</span>
+                        <span class="tech-badge">Flask API</span>
+                        <span class="tech-badge">Real Data</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2025 HousePricer. Built with ❤️ for Bengaluru Real Estate.</p>
+                </div>
+                <div class="footer-disclaimer">
+                    <p><strong>Disclaimer:</strong> Predictions are for informational purposes only. Actual prices may vary based on market conditions.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3>Analyzing Property Data</h3>
+            <p>Our AI is processing your request...</p>
+        </div>
+    </div>
+
+    <!-- Error Toast -->
+    <div id="error-toast" class="toast error-toast">
+        <div class="toast-content">
+            <i class="fas fa-exclamation-circle"></i>
+            <span class="toast-message"></span>
+        </div>
+        <button class="toast-close" onclick="hideToast('error-toast')">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="success-toast" class="toast success-toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <span class="toast-message"></span>
+        </div>
+        <button class="toast-close" onclick="hideToast('success-toast')">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

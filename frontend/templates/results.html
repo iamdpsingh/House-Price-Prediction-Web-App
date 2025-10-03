@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏠 Prediction Results - HousePricer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="results-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-home"></i>
+                    <span>HousePricer</span>
+                </div>
+                <nav class="nav">
+                    <a href="/" class="nav-link">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Predictor
+                    </a>
+                    <a href="/plot" class="nav-link">Model Performance</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Results Hero -->
+    <section class="results-hero">
+        <div class="container">
+            <div class="results-hero-content">
+                <h1 class="results-title">
+                    <i class="fas fa-chart-line"></i>
+                    Property Valuation Results
+                </h1>
+                <p class="results-subtitle">
+                    AI-powered price prediction with comprehensive market analysis
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Results -->
+    <section class="results-main">
+        <div class="container">
+            <div class="results-grid">
+                <!-- Primary Price Display -->
+                <div class="result-card primary-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-tag"></i>
+                            Estimated Price
+                        </h2>
+                        <div class="confidence-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            High Confidence
+                        </div>
+                    </div>
+                    <div class="price-section">
+                        <div class="main-price" id="main-price">
+                            ₹85.50 <span class="price-unit">lakhs</span>
+                        </div>
+                        <div class="price-range">
+                            Range: <span id="price-range">₹76.95 - ₹94.05 lakhs</span>
+                        </div>
+                        <div class="price-category" id="price-category">
+                            <span class="category-badge premium">Premium Property</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Summary -->
+                <div class="result-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-home"></i>
+                            Property Summary
+                        </h3>
+                    </div>
+                    <div class="property-details" id="property-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Location</span>
+                            <span class="detail-value">Whitefield</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Total Area</span>
+                            <span class="detail-value">1,200 sq ft</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Configuration</span>
+                            <span class="detail-value">2 BHK, 2 Bath</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Balconies</span>
+                            <span class="detail-value">1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="result-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-calculator"></i>
+                            Key Metrics
+                        </h3>
+                    </div>
+                    <div class="metrics-grid" id="metrics-grid">
+                        <div class="metric-item">
+                            <div class="metric-value">₹7,125</div>
+                            <div class="metric-label">Price per sq ft</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">600</div>
+                            <div class="metric-label">Sq ft per room</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">85%</div>
+                            <div class="metric-label">Amenity Score</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-value">Premium</div>
+                            <div class="metric-label">Location Tier</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Market Analysis -->
+                <div class="result-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-chart-bar"></i>
+                            Market Analysis
+                        </h3>
+                    </div>
+                    <div class="market-analysis" id="market-analysis">
+                        <div class="analysis-item">
+                            <div class="analysis-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="analysis-content">
+                                <div class="analysis-title">Location Tier</div>
+                                <div class="analysis-value">Premium</div>
+                                <div class="analysis-description">Well-established area with good infrastructure</div>
+                            </div>
+                        </div>
+                        <div class="analysis-item">
+                            <div class="analysis-icon">
+                                <i class="fas fa-trending-up"></i>
+                            </div>
+                            <div class="analysis-content">
+                                <div class="analysis-title">Investment Potential</div>
+                                <div class="analysis-value">Stable</div>
+                                <div class="analysis-description">Consistent appreciation with low volatility</div>
+                            </div>
+                        </div>
+                        <div class="analysis-item">
+                            <div class="analysis-icon">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                            <div class="analysis-content">
+                                <div class="analysis-title">Market Position</div>
+                                <div class="analysis-value">Average</div>
+                                <div class="analysis-description">Fairly priced for the area and configuration</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price Comparison Chart -->
+                <div class="result-card chart-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-chart-pie"></i>
+                            Price Breakdown
+                        </h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="priceChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Model Performance -->
+                <div class="result-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-cogs"></i>
+                            Model Information
+                        </h3>
+                    </div>
+                    <div class="model-info" id="model-info">
+                        <div class="model-item">
+                            <span class="model-label">Algorithm Used</span>
+                            <span class="model-value">Random Forest</span>
+                        </div>
+                        <div class="model-item">
+                            <span class="model-label">Model Accuracy</span>
+                            <span class="model-value">90.5%</span>
+                        </div>
+                        <div class="model-item">
+                            <span class="model-label">Training Data</span>
+                            <span class="model-value">13,320 properties</span>
+                        </div>
+                        <div class="model-item">
+                            <span class="model-label">Confidence Level</span>
+                            <span class="model-value">High</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendations -->
+                <div class="result-card recommendations-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fas fa-lightbulb"></i>
+                            Recommendations
+                        </h3>
+                    </div>
+                    <div class="recommendations" id="recommendations">
+                        <div class="recommendation-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Good entry point for first-time buyers</span>
+                        </div>
+                        <div class="recommendation-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Ideal for young professionals</span>
+                        </div>
+                        <div class="recommendation-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Balanced investment option</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="results-actions">
+                <button class="action-btn primary" onclick="window.print()">
+                    <i class="fas fa-print"></i>
+                    Print Report
+                </button>
+                <button class="action-btn secondary" onclick="shareResults()">
+                    <i class="fas fa-share-alt"></i>
+                    Share Results
+                </button>
+                <button class="action-btn outline" onclick="downloadReport()">
+                    <i class="fas fa-download"></i>
+                    Download Report
+                </button>
+                <a href="/" class="action-btn outline">
+                    <i class="fas fa-redo"></i>
+                    New Prediction
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Model Performance Section -->
+    <section class="performance-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Model Performance</h2>
+                <p class="section-subtitle">How our AI models compare in accuracy and reliability</p>
+            </div>
+            <div class="performance-chart">
+                <img src="/plot" alt="Model Performance Comparison" class="performance-image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-home"></i>
+                        <span>HousePricer</span>
+                    </div>
+                    <p class="footer-description">
+                        AI-powered house price prediction for Bengaluru real estate.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Disclaimer</h4>
+                    <p class="disclaimer-text">
+                        This prediction is based on machine learning analysis of historical data and should be used for informational purposes only. Actual property prices may vary based on current market conditions, property condition, legal factors, and other variables not captured in the model.
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 HousePricer. Built with ❤️ for Bengaluru Real Estate.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize chart
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Base Price', 'Location Premium', 'Size Factor', 'Amenities'],
+                    datasets: [{
+                        data: [65, 15, 12, 8],
+                        backgroundColor: [
+                            '#4F46E5',
+                            '#10B981',
+                            '#F59E0B',
+                            '#EF4444'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        });
+
+        // Share functionality
+        function shareResults() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'House Price Prediction Results',
+                    text: 'Check out my property valuation from HousePricer AI',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback - copy to clipboard
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('Results link copied to clipboard!');
+                });
+            }
+        }
+
+        // Download report
+        function downloadReport() {
+            const reportData = {
+                prediction: document.getElementById('main-price').textContent,
+                property: 'Sample property data',
+                timestamp: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(reportData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = 'house_price_prediction_report.json';
+            link.click();
+        }
+
+        // Print styles
+        window.addEventListener('beforeprint', function() {
+            document.body.classList.add('printing');
+        });
+
+        window.addEventListener('afterprint', function() {
+            document.body.classList.remove('printing');
+        });
+    </script>
+</body>
+</html>
