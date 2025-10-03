@@ -2,7 +2,7 @@ import subprocess
 import os
 
 # Set your GitHub repo URL here
-GITHUB_URL = "https://github.com/iamdpsingh/Spam-Email-Classifier.git"  # <-- Replace this
+GITHUB_URL = "https://github.com/iamdpsingh/House-Price-Prediction-Web-App.git"  # <-- Replace this
 
 # File types to be tracked by Git LFS
 LFS_FILE_TYPES = ["*.csv", "*.pkl", "*.h5", "*.zip", "*.pt"]
