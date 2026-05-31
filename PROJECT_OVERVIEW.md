@@ -158,7 +158,7 @@ CSS:               1.4%   (Styling and responsive design)
 ### Tech Stack Summary
 
 | Layer | Technology | Purpose |
-|-------|-----------|---------|
+|-------|-----------|----------|
 | **Frontend** | HTML5, CSS3, JavaScript | User interface |
 | **Backend** | Flask, Python | API and business logic |
 | **ML** | scikit-learn, pandas, numpy | Models and data processing |
@@ -270,7 +270,7 @@ An API client wants to integrate predictions into their system.
    - API documentation
    - Troubleshooting guide
 
-2. **DOCUMENTATION.md** (This file - Comprehensive reference)
+2. **DOCUMENTATION.md** (Comprehensive reference)
    - System architecture
    - Technology stack details
    - ML pipeline explanation
@@ -404,4 +404,3 @@ The **House Price Prediction Web Application** is a comprehensive, production-re
 **Project Repository**: [GitHub Link](https://github.com/iamdpsingh/House-Price-Prediction-Web-App)  
 **Last Updated**: October 2025  
 **Status**: ✅ Production Ready
-
